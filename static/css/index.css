@@ -1,0 +1,130 @@
+/* =========================== Hero Banner 样式 =========================== */
+
+/* 
+   让 hero-banner 占满视口高度，高度可根据需要调整。
+   如果你有导航栏并且想避免重叠，可在此处增加一个 top padding。
+*/
+.hero-banner {
+    position: relative;
+    width: 100%;
+    height: 100vh;         /* 占满整个可视区域高度 */
+    overflow: hidden;      /* 隐藏滚动时可能溢出的元素 */
+    margin: 0;
+    padding: 0;
+    background-color: #000;  /* 如果图片没加载出来，先用黑色作为背景 */
+  }
+  
+  /* 实际的背景图层，用绝对定位填满容器 */
+  .hero-banner__bg {
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* 如果用 <img> 标签，可以使用该属性保证适应容器 */
+    z-index: 0;       /* 在文字之下 */
+    /* 下面为背景图片示例，如果使用 background-image 而非 <img>，可这样写 */
+    
+    background: url('../images/your_banner_image.png') no-repeat center center; 
+    background-size: cover; 
+   
+    /* 在 parallax 中，需要让 transform 在滚动时产生位移 */
+    transform: translateY(0);
+    will-change: transform; /* 提升渲染性能 */
+    transition: transform 0.1s linear;
+  }
+  
+  /* 
+     如果你想在不使用 JS 的前提下做简单的 "fixed" 背景，也可只用 background-attachment: fixed;
+     但效果可能略简单，不如 JS 计算来的灵活。
+     例如：
+
+  */
+  .hero-banner {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    background:
+      linear-gradient(rgba(255,255,255,0.65), rgba(255,255,255,0.65)), 
+      url('../images/your_banner_image.png') no-repeat center center;
+      background-size: cover, cover;
+    background-attachment: fixed;
+    background-blend-mode: normal;
+    transition: background-size 0.2s ease-out; 
+  }
+
+  /* Hero 内部文字容器，一般 Bulma 自带 .hero-body 等，你可在此微调。 */
+  .hero-banner .hero-body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+  
+  /* 让标题等文字初始有淡入动画 */
+  .hero-banner .fade-in-up {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s ease forwards;
+  }
+  
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* ======================= 其他可能用到的辅助类 ======================= */
+  
+  /* 如果不想再有白色覆盖，可以去掉之前写的背景或遮罩层。 
+     比如原先的 .hero-banner::before 之类的，如果有，可移除或改为透明。 */
+  
+  /*
+  .hero-banner::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: none; 
+    opacity: 0; 
+    /* 如果之前出现了白色覆盖，就把它去掉或将opacity设为 0 
+  }
+  */
+  
+  /* 让底部出现向下箭头提示滚动，可选 */
+  .scroll-down-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 2rem;       /* 箭头大小 */
+    color: #fff;
+    opacity: 0.8;
+    animation: upDown 1s ease-in-out infinite alternate;
+  }
+  @keyframes upDown {
+    0%   { transform: translate(-50%, 0); }
+    100% { transform: translate(-50%, 10px); }
+  }
+
+   /* 视频区域美化 */
+   .teaser video {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    margin-bottom: 1rem;
+  }
+  
+  /* Footer 美化 */
+  .footer {
+    background-color: #f2f2f2;
+    padding: 2rem 1rem;
+    font-size: 0.95rem;
+    border-top: 1px solid #ddd;
+  }
+  .footer a {
+    color: #3273dc; /* Bulma primary color */
+    text-decoration: underline;
+  } 
